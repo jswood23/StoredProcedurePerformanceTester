@@ -1,3 +1,17 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using System.Reflection;
+using Microsoft.Extensions.Configuration;
+using StoredProcedurePerformanceTester;
 
-Console.WriteLine("Hello, World!");
+var assemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+var projectRoot = Directory.GetParent(assemblyLocation).Parent.Parent.FullName;
+
+IConfigurationRoot config = new ConfigurationBuilder()
+    .SetBasePath(projectRoot)
+    .AddJsonFile("appsettings.json")
+    .AddEnvironmentVariables()
+    .Build();
+
+TestUsageSummaryPerformance test = new(config);
+
+using (StreamWriter writer = new StreamWriter("UsageSummaryCreditsMetrics.csv"))
+    await test.TestAll(writer);

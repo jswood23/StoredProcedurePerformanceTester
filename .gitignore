@@ -4,4 +4,4 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 /StoredProcedurePerformanceTester.sln
-appsettings.json
+appsettings.dev.json
